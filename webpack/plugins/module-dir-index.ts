@@ -9,26 +9,26 @@ import { Compiler } from 'webpack';
 import fs from "fs";
 
 
-type  ModuleDir2NamespacePluginProps = {
+type  ModuleDirIndexPluginProps = {
     fromDir:string,
     outputFile:string,
 }
 
-export default  class ModuleDir2NamespacePlugin{
+export default  class ModuleDirIndexPlugin {
     private readonly fromDir: string;
     private readonly outputFile: string;
 
 
-    constructor(options: ModuleDir2NamespacePluginProps) {
+    constructor(options: ModuleDirIndexPluginProps) {
         this.fromDir = options.fromDir;
         this.outputFile = options.outputFile;
     }
 
     apply(compiler: Compiler): void {
-        compiler.hooks.beforeCompile.tapPromise('ModuleDir2NamespacePlugin1',async () => {
+        compiler.hooks.beforeCompile.tapPromise('ModuleDirIndexPlugin1',async () => {
            await rebuildIndexFile(this.fromDir, this.outputFile)
         })
-        compiler.hooks.watchRun.tapPromise('ModuleDir2NamespacePlugin',async (compiler) => {
+        compiler.hooks.watchRun.tapPromise('ModuleDirIndexPlugin',async (compiler) => {
             if (compiler.modifiedFiles) {
                 compiler.modifiedFiles.forEach(file => {
                     if(file.startsWith(this.fromDir)){
